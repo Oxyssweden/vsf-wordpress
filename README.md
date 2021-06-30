@@ -1,6 +1,6 @@
 # Wordpress CMS integration for Vue Storefront 2 (Next)
 
-This is a first draft of a integration plugin for WP and VSF. Feel free to create pull requests.
+This is a first draft of a integration plugin for WP and VSF. There is room for improvements! Feel free to create pull requests.
 
 Installation
 ----------------------------------------------------------------
@@ -43,6 +43,13 @@ export default {
 
   // ...
 };
+```
+and add the build scripts to package.json
+```
+    "build:wp-api": "cd packages/wordpress/packages/api-client && yarn build",
+    "build:wp-composables": "cd packages/wordpress/packages/composables && yarn build",
+    "dev:wp-api": "cd packages/wordpress/packages/api-client && yarn dev",
+    "dev:wp-composables": "cd packages/wordpress/packages/composables && yarn dev",
 ```
 
 Usage
