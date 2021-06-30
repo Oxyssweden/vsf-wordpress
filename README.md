@@ -55,7 +55,7 @@ and add the build scripts to package.json
 Usage
 ----------------------------------------------------------------
 Add a .env to your packages/theme with this line:
-`WORDPRESS_GRAPHQL=https://next.picsmart.se/graphql`
+`WORDPRESS_GRAPHQL=https://mywordpress.local/graphql`
 Then in your middleware.config.js:
 ```
 module.exports = {
