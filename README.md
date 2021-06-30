@@ -102,6 +102,15 @@ export default {
 </script>
 ```
 
+Wordpress requirements
+----------------------------------------------------------------
+Requires the [WOrdpress GraphQL plugin](https://www.wpgraphql.com/). If you have custom post types you must add this to the register_post_type() arguments.
+```
+        'show_in_graphql' => true,
+        'graphql_single_name' => 'mycustompost',
+        'graphql_plural_name' => 'mycustomposts',
+```
+
 
 License
 ----------------------------------------------------------------
