@@ -9,7 +9,6 @@ export default useContentFactory<[ContentNode], useContentParameters>({
   async search (context, params) {
     params.postType = params.postType || 'posts';
     const response = await context.$wordpress.api.getContentList(params);
-    console.log(response);
     return response.data[params.postType].nodes;
   }
 });
