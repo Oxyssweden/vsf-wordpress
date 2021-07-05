@@ -4,6 +4,7 @@ import { apolloClientFactory } from './helpers/wordpressLink/graphQlclient';
 import { apiClientFactory } from '@vue-storefront/core';
 import { ClientInstance, Config } from './types/setup';
 import getContent from './api/getContent';
+import getContentList from './api/getContentList';
 require('dotenv').config();
 
 const onCreate = (settings: Config): { config: Config; client: ClientInstance } => {
@@ -27,7 +28,8 @@ const onCreate = (settings: Config): { config: Config; client: ClientInstance } 
 const { createApiClient } = apiClientFactory({
   onCreate,
   api: {
-    getContent
+    getContent,
+    getContentList
   }
 });
 

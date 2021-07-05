@@ -44,7 +44,7 @@ export default {
   // ...
 };
 ```
-and add the build scripts to package.json
+and add the build scripts to package.json. Make sure to build wp-api before wp-composables when you chain them.
 ```
     "build:wp-api": "cd packages/wordpress/packages/api-client && yarn build",
     "build:wp-composables": "cd packages/wordpress/packages/composables && yarn build",
@@ -70,7 +70,7 @@ module.exports = {
   }
 };
 ```
-Example component
+Example component, single post
 ```
 <template>
   <h1>
@@ -87,10 +87,10 @@ export default {
   name: 'Example',
   setup(props, context) {
     const { search, content, error } = useContent('cmsPage');
-    const { store } = context.root.$route.params;
+    const { postSlug } = context.root.$route.params;
 
     // fetch data
-    onSSR(async () => await search({ postType: 'post', id: 'some-slug/' + store, idType: 'SLUG' }));
+    onSSR(async () => await search({ postType: 'post', id: postSlug, idType: 'SLUG' }));
 
     const title = computed(() => contentGetters.getTitle(content.value));
 
@@ -101,16 +101,48 @@ export default {
 };
 </script>
 ```
+Example component, list of custom posts by meta query
+```
+<template>
+      <ul>
+        <li v-for="post in content" :key="getId(post)">
+          <SfLink :link="`/${getSlug(post)}`">{{
+              getTitle(post)
+            }}</SfLink>
+        </li>
+      </ul>
+</template>
+
+<script>
+import {contentGetters, useContentList} from '@Oxyssweden/vsf-wordpress';
+import {onSSR} from '@vue-storefront/core';
+import {computed} from '@vue/composition-api';
+
+export default {
+  name: 'Example',
+  setup(props, context) {
+    const { search, content, error } = useContentList('cmsPage');
+
+    // fetch 20 posts, use graphql plural form for postType
+    onSSR(async () => await search({ postType: 'stores', metaArray: [{compare: 'LIKE', key: 'some meta key', value: 'some value'}]}, first: 20));
+
+    return {
+      content
+    };
+  }
+};
+</script>
+```
 
 Wordpress requirements
 ----------------------------------------------------------------
-Requires the [WOrdpress GraphQL plugin](https://www.wpgraphql.com/). If you have custom post types you must add this to the register_post_type() arguments.
+Requires the [Wordpress GraphQL plugin](https://www.wpgraphql.com/). If you have custom post types you must add this to the register_post_type() arguments.
 ```
         'show_in_graphql' => true,
         'graphql_single_name' => 'mycustompost',
         'graphql_plural_name' => 'mycustomposts',
 ```
-
+For meta query support: [WPGraphQL Meta](https://www.wpgraphql.com/extenstion-plugins/wpgraphql-meta/)
 
 License
 ----------------------------------------------------------------
